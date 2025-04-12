@@ -17,7 +17,10 @@
   <section class="about_section layout_padding">
     <div class="container  ">
       <h1> Green Plates</h1>
-
+      <div class="posts" th:each="post: ${posts}">
+        <h3 th:text="${post.title}">Title</h3>
+        <p th:text="${post.body}">Body</p>
+      </div>
    
     </div>
   </section>
