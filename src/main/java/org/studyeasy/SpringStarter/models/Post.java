@@ -27,12 +27,4 @@ public class Post {
 
     private LocalDateTime createdAt;
 
-    public Object getId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void setCreatedAt(LocalDateTime now) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }
