@@ -1,11 +1,16 @@
 package org.studyeasy.SpringStarter.config;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
 
 
 @Configuration
@@ -23,17 +28,37 @@ public class WebSecurityConfig {
         "/js/**",
     };
 
+       @Bean
+    public static PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
     
     @SuppressWarnings("removal")
     @Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(WHITELIST).
             permitAll()
             .anyRequest()
-            .authenticated()
+            .authenticated()  
         )
+        .formLogin(form -> form
+        .loginPage("/login")
+        .loginProcessingUrl("/login")
+        .passwordParameter("password")
+        .defaultSuccessUrl("/", true)
+        .failureUrl("/login?error")
+        .permitAll()
+        )
+
+        .logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/logout?success")
+        )
+
+        .httpBasic(Customizer.withDefaults())
+
         .csrf(csrf -> csrf
             .ignoringRequestMatchers("/db-console/**")
         )
