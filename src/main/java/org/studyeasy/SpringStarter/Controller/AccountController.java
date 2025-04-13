@@ -30,7 +30,11 @@ public class AccountController {
         accountService.save(account);
         return "redirect:/";
     }
-    
+
+    @GetMapping("/login")
+    public String login(Model model){
+        return "login";
+    }    
        
     
 }
