@@ -18,9 +18,5 @@ public class HomeController {
         model.addAttribute("posts", posts);
         return "home";
     }
-    @GetMapping("/register")
-    public String register (Model model) {
-        return "register";
-    }
-    
+  
 }
