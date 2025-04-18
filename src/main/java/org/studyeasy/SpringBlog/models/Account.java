@@ -15,6 +15,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+// @Table(name = "account")
+// @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+// @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
+// @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "id")   
 @NoArgsConstructor
 
 public class Account {
@@ -24,6 +29,8 @@ public class Account {
     private String email;
     private String password;
     private String firstname;
+    private String lastname;
+    private String role; 
 
     @OneToMany (mappedBy = "account")
     private List<Post> posts;

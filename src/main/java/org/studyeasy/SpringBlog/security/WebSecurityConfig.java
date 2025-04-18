@@ -1,4 +1,4 @@
-package org.studyeasy.SpringBlog.config;
+package org.studyeasy.SpringBlog.security;
 
 
 import org.springframework.context.annotation.Bean;

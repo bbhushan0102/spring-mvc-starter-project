@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.studyeasy.SpringBlog.models.Account;
 import org.studyeasy.SpringBlog.repositories.AccountRepository;
+import org.studyeasy.SpringBlog.util.constants.Roles;
 
 @Service
 public class AccountService implements UserDetailsService {
@@ -25,6 +26,7 @@ public class AccountService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
     public Account save (Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
+        account.setRole(Roles.USER.getRole());
         return accountRepository.save(account);
     }
     @Override
@@ -36,7 +38,15 @@ public class AccountService implements UserDetailsService {
         Account account = optionalAccount.get();
         
         List<GrantedAuthority> grantedAuthority = new ArrayList<>();
-        grantedAuthority.add(new SimpleGrantedAuthority("Allow"));
+        grantedAuthority.add(new SimpleGrantedAuthority(account.getRole()));
+        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.USER.getRole()));
+        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.ADMIN.getRole()));
+        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.MODERATOR.getRole()));
+        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.SUPER_ADMIN.getRole()));
+        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.ROLE_USER.getRole()));
+        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.ROLE_ADMIN.getRole()));
+        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.ROLE_MODERATOR.getRole()));
+        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.ROLE_SUPER_ADMIN.getRole()));      
 
         return new User(account.getEmail(), account.getPassword(), grantedAuthority);
     }
