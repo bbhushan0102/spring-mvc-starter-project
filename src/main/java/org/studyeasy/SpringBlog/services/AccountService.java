@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.studyeasy.SpringBlog.models.Account;
+import org.studyeasy.SpringBlog.models.Authority;
 import org.studyeasy.SpringBlog.repositories.AccountRepository;
 import org.studyeasy.SpringBlog.util.constants.Roles;
 
@@ -39,15 +40,12 @@ public class AccountService implements UserDetailsService {
         
         List<GrantedAuthority> grantedAuthority = new ArrayList<>();
         grantedAuthority.add(new SimpleGrantedAuthority(account.getRole()));
-        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.USER.getRole()));
-        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.ADMIN.getRole()));
-        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.MODERATOR.getRole()));
-        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.SUPER_ADMIN.getRole()));
-        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.ROLE_USER.getRole()));
-        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.ROLE_ADMIN.getRole()));
-        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.ROLE_MODERATOR.getRole()));
-        // grantedAuthority.add(new SimpleGrantedAuthority(Roles.ROLE_SUPER_ADMIN.getRole()));      
-
+        
+        for(Authority _auth : account.getAuthorities()){
+            grantedAuthority.add(new SimpleGrantedAuthority(_auth.getName()));
+        }
+        
+        
         return new User(account.getEmail(), account.getPassword(), grantedAuthority);
     }
     

@@ -55,7 +55,7 @@ public class WebSecurityConfig {
 
         .logout(logout -> logout
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/logout?success")
+            .logoutSuccessUrl("/")
         )
 
         .httpBasic(Customizer.withDefaults())
